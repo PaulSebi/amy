@@ -26,7 +26,9 @@ module.exports.routes = {
   //   view: 'homepage'
   // },
   'GET /movies/filldb' : 'MoviesController.filldb',
-  'GET /movies/viewdb' : 'MoviesController.viewall'
+  'GET /movies/viewdb' : 'MoviesController.viewall',
+  'GET /about' : 'AboutController.about',
+  'GET /allmovies' : 'AboutController.allmovies'
 
 
 };

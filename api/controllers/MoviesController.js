@@ -5,12 +5,13 @@ module.exports = {
 					console.log('Params',req.query.prefix.length);
 					var functional_str  = req.query.prefix,
 					n = 8 - functional_str.length,
-					id = "", i;
+					idlist = [], i;
 
-					for(i= Math.pow(10, n); i < 10*Math.pow(10, n); i++){
-							id = functional_str + i.toString();
-							console.log(id);
-							omdb.get(id, function(err, movie){
+					for(i= Math.pow(10, n); i < 10*Math.pow(10, n); i++)
+							idlist.push(functional_str + i.toString());
+					console.log(idlist);
+					async.map(idlist, function(id, callback){
+						omdb.get(id, function(err, movie){
 									if(err)
 									{
 										console.log('No Such Movies');
@@ -48,10 +49,17 @@ module.exports = {
 												console.log(err);
 											console.log('Added ------->>',added.title);
 									});
-							});
-					}
-			},
-
+								})
+								console.log("processing");
+								callback();
+						},
+						function(err, result){
+								if(err)
+									res.json({message: 'Some Error'});
+								console.log("fin");
+								res.json({message: 'Success'});
+						});
+					},
 
 			viewall : function(req, res){
 						showall(function(err, movielist){
